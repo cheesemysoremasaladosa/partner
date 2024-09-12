@@ -1,7 +1,7 @@
 import { View, StyleSheet, FlatList, Dimensions, Text } from "react-native";
 import Veggie from "./Veggie";
+import {CatalogData, Vegetable } from "@/types/types";
 
-const Screen = Dimensions.get("window");
 export function CatalogSkeleton() {
     //TODO: return a skeleton while loading data
     return (
@@ -15,23 +15,24 @@ const squareDim = 150
 const numColumns = Math.floor(Dimensions.get("window").width / squareDim);
 
 
-const formatData = (data: Array<any>, numColumns: number) => {
-    const numberOfFullRows = Math.floor(data.length / numColumns);
-    let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
+function formatData(data: CatalogData, numColumns: number):Array<Vegetable>{
+    const numberOfFullRows = Math.floor(data.size/ numColumns);
+    let numberOfElementsLastRow = data.size - (numberOfFullRows * numColumns);
+    let out: Array<Vegetable> = [...data.values()];
     while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-        data.push('');
+        out.push({} as Vegetable);
         numberOfElementsLastRow++;
     }
-    return data;
-};
+    return out;
+}
 
-export function Catalog({ catalog, VeggiePressCallback }: { catalog: Array<string>, VeggiePressCallback: (name: string) => void }) {
+export function Catalog({ catalog, VeggiePressCallback }: { catalog: CatalogData, VeggiePressCallback: (vegetable: Vegetable) => void }) {
     return (<FlatList data={formatData(catalog, numColumns)}
-        renderItem={({ item }) => {
-            if (item.length === 0) {
-                return <Veggie name="" pressCallback={() => { }} style={{ backgroundColor: 'transperent' }} />
+        renderItem={({ item }: {item: Vegetable}) => {
+            if (Object.keys(item).length==0) {
+                return <Veggie vegetable={{} as Vegetable} pressCallback={() => { }} style={{ backgroundColor: 'transperent' }} />
             }
-            return <Veggie name={item} pressCallback={VeggiePressCallback} />
+            return <Veggie vegetable={item} pressCallback={VeggiePressCallback} />
         }}
         numColumns={numColumns} style={style.veggieRow} />
     );

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { CatalogSkeleton, Catalog } from "@/components/Catalog";
-const VEGETABLES = ["Tomato", "Onion", "Potato", "Chilli", "Lemon", "Spinach", "Radish"];
-type Vegetable = string;
+import { Vegetable, CatalogData} from "@/types/types";
 
-async function getVegetableCatalog(): Promise<Array<Vegetable>> {
+const VEGETABLES = ["Tomato", "Onion", "Potato", "Chilli", "Lemon", "Spinach", "Radish"];
+
+async function getVegetableCatalog(): Promise<CatalogData> {
   //TODO: GET the vegetable catalog using the /vegetables endpoint
-  return VEGETABLES;
+  return new Map(VEGETABLES.map((name: string, index: number)=>[index, {id:index, name: name} as Vegetable])) as CatalogData;
 }
 async function addVegetableToCart(vegetable: Vegetable) {
   //TODO: PUT the vegetable to partner's cart using the /cart/<vegetable_id> endpoint
@@ -23,12 +24,12 @@ export default function Index() {
     addVegetableToCart(vegetable);
   }
 
-  let [catalog, setCatalog] = useState<Array<Vegetable>>([]);
+  let [catalog, setCatalog] = useState<CatalogData>(new Map() as CatalogData);
   let [catalogLoading, setCatalogLoading] = useState<boolean>(true);
   let [catalogError, setCatalogError] = useState<boolean>(false);
   useEffect(() => {
     getVegetableCatalog().then((data) => {
-      //TODO: cache catalog data
+      //TODO: cache catalog data in the AsyncStorage for a period of time i.e associcate a TTL with CatalogData
       
       //currently simulating time taken to fetch catalog data
       setTimeout(()=>{
