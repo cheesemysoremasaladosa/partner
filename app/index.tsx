@@ -6,14 +6,14 @@ import { Vegetable, CatalogData} from "@/types/types";
 const VEGETABLES = ["Tomato", "Onion", "Potato", "Chilli", "Lemon", "Spinach", "Radish"];
 
 async function getVegetableCatalog(): Promise<CatalogData> {
-  //TODO: GET the vegetable catalog using the /vegetables endpoint
+  //TODO: GET the vegetable catalog using the /catalog endpoint
   return new Map(VEGETABLES.map((name: string, index: number)=>[index, {id:index, name: name} as Vegetable])) as CatalogData;
 }
 async function addVegetableToCart(vegetable: Vegetable) {
-  //TODO: PUT the vegetable to partner's cart using the /cart/<vegetable_id> endpoint
+  //TODO: PUT the vegetable to partner's cart using the /cart/<partner_id> endpoint
 }
 async function removeVegetableFromCart(vegetable: Vegetable) {
-  //TODO: DELETE the vegetable to partner's cart using the /cart/<vegetable_id> endpoint
+  //TODO: DELETE the vegetable to partner's cart using the /cart/<partner_id> endpoint
 }
 
 export default function Index() {
