@@ -3,11 +3,14 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { CatalogSkeleton, Catalog } from "@/components/Catalog";
 import { Vegetable, CatalogData} from "@/types/types";
 
-const VEGETABLES = ["Tomato", "Onion", "Potato", "Chilli", "Lemon", "Spinach", "Radish"];
 
 async function getVegetableCatalog(): Promise<CatalogData> {
   //TODO: GET the vegetable catalog using the /catalog endpoint
-  return new Map(VEGETABLES.map((name: string, index: number)=>[index, {id:index, name: name} as Vegetable])) as CatalogData;
+  const response = await fetch("http://192.168.255.3:8000/catalog");
+  const catalog_json = await response.json();
+  const catalog_data = Object.entries(catalog_json.catalog);
+  const catalog = new Map(catalog_data.map(([id, vegetable])=>[parseInt(id), vegetable]));
+  return catalog as CatalogData;
 }
 async function addVegetableToCart(vegetable: Vegetable) {
   //TODO: PUT the vegetable to partner's cart using the /cart/<partner_id> endpoint
@@ -32,10 +35,8 @@ export default function Index() {
       //TODO: cache catalog data in the AsyncStorage for a period of time i.e associcate a TTL with CatalogData
       
       //currently simulating time taken to fetch catalog data
-      setTimeout(()=>{
         setCatalog(data);
         setCatalogLoading(false);
-      }, 1000);
 
     }).catch(() => setCatalogError(true));
   }, []);
