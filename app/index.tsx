@@ -2,22 +2,7 @@ import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { CatalogSkeleton, Catalog } from "@/components/Catalog";
 import { Vegetable, CatalogData} from "@/types/types";
-
-
-async function getVegetableCatalog(): Promise<CatalogData> {
-  //TODO: GET the vegetable catalog using the /catalog endpoint
-  const response = await fetch("http://192.168.255.3:8000/catalog");
-  const catalog_json = await response.json();
-  const catalog_data = Object.entries(catalog_json.catalog);
-  const catalog = new Map(catalog_data.map(([id, vegetable])=>[parseInt(id), vegetable]));
-  return catalog as CatalogData;
-}
-async function addVegetableToCart(vegetable: Vegetable) {
-  //TODO: PUT the vegetable to partner's cart using the /cart/<partner_id> endpoint
-}
-async function removeVegetableFromCart(vegetable: Vegetable) {
-  //TODO: DELETE the vegetable to partner's cart using the /cart/<partner_id> endpoint
-}
+import { getVegetableCatalog, addVegetableToCart, removeVegetableFromCart } from "@/api/cart";
 
 export default function Index() {
   const [cart, setCart] = useState<Set<Vegetable>>(new Set());
