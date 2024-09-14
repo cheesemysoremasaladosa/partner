@@ -13,3 +13,5 @@ export interface Item{
 export type CatalogData = Map<vegetableId, Vegetable>;
 export type PartnerSessionID = string;
 export type PartnerID = number;
+
+export type Cart = Array<Item>;

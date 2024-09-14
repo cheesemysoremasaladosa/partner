@@ -1,4 +1,4 @@
-import { PartnerID, PartnerSessionID, Vegetable, CatalogData } from "@/types/types";
+import { Cart, PartnerID, PartnerSessionID, Vegetable, CatalogData } from "@/types/types";
 const baseUrl = process.env.EXPO_PUBLIC_API_URL;
 
 export async function getCurrentPartnerSession(): Promise<PartnerSessionID> {
@@ -40,4 +40,16 @@ export async function addVegetableToCart(vegetable: Vegetable) {
 
 export async function removeVegetableFromCart(vegetable: Vegetable) {
     //TODO: DELETE the vegetable to partner's cart using the /cart/<partner_id> endpoint
+}
+
+export async function getPartnerCart(): Promise<Cart> {
+    //GET the partner's cart using the /cart/<partner_id> endpoint
+    const partnerID = await getCurrentPartnerID();
+    const response = await fetch(`${baseUrl}/cart/${partnerID}`);
+    if (response.status != 200) {
+        console.log("error fetching partner's cart");
+    }
+    const cart_json = await response.json();
+    const cart = cart_json.cart as Cart;
+    return cart;
 }
