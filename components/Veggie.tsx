@@ -4,7 +4,7 @@ export default function Veggie({ vegetable, pressCallback, style={}}: { vegetabl
     return (
         <View style={styles.veggieItem}>
             <TouchableOpacity onPress={() => pressCallback(vegetable)}>
-                <View style={[styles.veggieImage, {backgroundColor: "grey"}, style]}></View>
+                <View style={[styles.veggieImage, {backgroundColor: "silver"}, style]}></View>
             </TouchableOpacity>
             <View style={{ flex: 1, flexDirection: "row" }} >
                 <Text style={{ fontWeight: "bold" }}>{vegetable.name}</Text>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         minHeight: 150,
         minWidth: 150,
         borderRadius: 10,
-        backgroundColor: "grey",
+        backgroundColor: "silver",
         marginBottom: 5
     },
 });

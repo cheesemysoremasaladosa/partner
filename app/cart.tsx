@@ -1,15 +1,12 @@
 import { FlatList, View, Text } from "react-native";
 import { getPartnerCart } from "@/api/cart";
 import { useContext, useEffect, useState } from "react";
-import { Cart, CatalogData, Item, Vegetable } from "@/types/types";
+import { Cart, Item, Vegetable } from "@/types/types";
 import { CatalogContext } from "./_layout";
-
-
-
 
 function CartItem({ item, vegetable }: { item: Item, vegetable: Vegetable }) {
     return (
-        <View style={{ padding: 15, margin: 5, borderRadius: 10, backgroundColor: "grey", minHeight: 100 }}>
+        <View style={{ padding: 15, margin: 5, borderRadius: 10, backgroundColor: "silver", minHeight: 100 }}>
             <Text>{vegetable.name}</Text>
         </View>);
 }

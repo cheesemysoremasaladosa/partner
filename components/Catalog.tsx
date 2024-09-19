@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, Dimensions, Text } from "react-native";
+import { View, StyleSheet, FlatList, Dimensions, Text, TouchableOpacity} from "react-native";
 import Veggie from "./Veggie";
 import {CatalogData, Vegetable } from "@/types/types";
 
@@ -11,6 +11,18 @@ export function CatalogSkeleton() {
     );
 }
 
+export function CatalogError({errorMsg, refreshCallback}:{errorMsg: string, refreshCallback: ()=>void}){
+    return (
+        <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+            <Text >Catalog Error: {errorMsg}</Text>
+            <TouchableOpacity onPress={refreshCallback}>
+                <View style={{backgroundColor: "black", alignItems: "center", justifyContent: "center",borderRadius: 5, minWidth: 100, minHeight: 50, margin: 10}}>
+                    <Text style={{color: "white"}}>Refresh</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
+    );
+}
 const squareDim = 150
 const numColumns = Math.floor(Dimensions.get("window").width / squareDim);
 

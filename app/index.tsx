@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { CatalogSkeleton, Catalog } from "@/components/Catalog";
-import { Vegetable, CatalogData } from "@/types/types";
-import { getVegetableCatalog, addVegetableToCart, removeVegetableFromCart } from "@/api/cart";
+import { CatalogSkeleton, Catalog, CatalogError } from "@/components/Catalog";
+import { Vegetable} from "@/types/types";
+import { getVegetableCatalog, addVegetableToCart} from "@/api/cart";
 import { CatalogContext } from "./_layout";
 import { router } from "expo-router";
 
@@ -14,9 +14,11 @@ export default function Index() {
     await addVegetableToCart(vegetable);
   }
 
+  function handleCatalogRefresh(){setCatalogRefresh(catalogRefresh+1);}
   //let [catalog, setCatalog] = useState<CatalogData>(new Map() as CatalogData);
   let [catalogLoading, setCatalogLoading] = useState<boolean>(true);
-  let [catalogError, setCatalogError] = useState<boolean>(false);
+  let [catalogError, setCatalogError] = useState<string>("");
+  const [catalogRefresh, setCatalogRefresh] = useState<number>(0);
   const { catalog, setCatalog } = useContext(CatalogContext);
   useEffect(() => {
     if (Object.keys(catalog).length === 0) {
@@ -24,11 +26,11 @@ export default function Index() {
         //TODO: cache catalog data in the AsyncStorage for a period of time i.e associcate a TTL with CatalogData
         setCatalog(data);
         setCatalogLoading(false);
-      }).catch(() => setCatalogError(true));
+        setCatalogError("");
+      }).catch((error) => {setCatalogError(error.message)});
     }
-  }, []);
-  console.log(cart);
-  if (catalogError) { return (<View><Text>Error</Text></View>); }
+  }, [catalogRefresh]);
+  if (catalogError.length !== 0) { return <CatalogError errorMsg={catalogError} refreshCallback={handleCatalogRefresh}/>;}
   if (catalogLoading) { return (<View><CatalogSkeleton /></View>); }
 
   return (
