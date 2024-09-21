@@ -6,6 +6,7 @@ import { Vegetable} from "@/types/types";
 import { getVegetableCatalog, addVegetableToCart} from "@/api/cart";
 import { CatalogContext } from "./_layout";
 import { router } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
 
 export default function Index() {
   const navigation = useNavigation();
@@ -33,8 +34,10 @@ export default function Index() {
   }, [catalogRefresh]);
   if (catalogError.length !== 0) { return <CatalogError errorMsg={catalogError} refreshCallback={handleCatalogRefresh}/>;}
   if (catalogLoading) { return (<View><CatalogSkeleton /></View>); }
-
   return (
+    <>
+    {/*FIXME: workaround for status bar placed here for NOW*/}
+    <StatusBar style="dark"/>
     <View style={{ flexDirection: "column", flex: 1 }}>
       <View style={{ flex: 10 }}>
         <Catalog catalog={catalog} VeggiePressCallback={handleVeggie} />
@@ -44,6 +47,7 @@ export default function Index() {
           <Text style={{ color: "white" }}>Manage Cart</Text>
         </TouchableOpacity>
     </View>
+    </>
   );
 }
 
