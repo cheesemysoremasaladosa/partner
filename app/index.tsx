@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigation } from 'expo-router';
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { CatalogSkeleton, Catalog, CatalogError } from "@/components/Catalog";
 import { Vegetable} from "@/types/types";
@@ -7,7 +8,8 @@ import { CatalogContext } from "./_layout";
 import { router } from "expo-router";
 
 export default function Index() {
-  const [cart, setCart] = useState<Set<Vegetable>>(new Set());
+  const navigation = useNavigation();
+  useEffect(()=>{navigation.setOptions({title: "Catalog"});}, [navigation]);
 
   async function handleVeggie(vegetable: Vegetable) {
     setCart(new Set(cart.add(vegetable)));
@@ -16,6 +18,7 @@ export default function Index() {
 
   function handleCatalogRefresh(){setCatalogRefresh(catalogRefresh+1);}
   //let [catalog, setCatalog] = useState<CatalogData>(new Map() as CatalogData);
+  const [cart, setCart] = useState<Set<Vegetable>>(new Set());
   let [catalogLoading, setCatalogLoading] = useState<boolean>(true);
   let [catalogError, setCatalogError] = useState<string>("");
   const [catalogRefresh, setCatalogRefresh] = useState<number>(0);
@@ -41,7 +44,7 @@ export default function Index() {
 
       {/*only show the "Manage Cart" button if the cart isn't empty*/}
       {cart.size > 0 &&
-        <TouchableOpacity style={styles.menuBar} onPress={()=>router.push('/cart')}>
+        <TouchableOpacity style={styles.menuBar} onPress={()=>router.push('/MyCart')}>
           <Text style={{ color: "white" }}>Manage Cart</Text>
         </TouchableOpacity>}
     </View>
