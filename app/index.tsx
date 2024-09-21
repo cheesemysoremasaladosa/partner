@@ -12,13 +12,11 @@ export default function Index() {
   useEffect(()=>{navigation.setOptions({title: "Catalog"});}, [navigation]);
 
   async function handleVeggie(vegetable: Vegetable) {
-    setCart(new Set(cart.add(vegetable)));
     await addVegetableToCart(vegetable);
   }
 
   function handleCatalogRefresh(){setCatalogRefresh(catalogRefresh+1);}
   //let [catalog, setCatalog] = useState<CatalogData>(new Map() as CatalogData);
-  const [cart, setCart] = useState<Set<Vegetable>>(new Set());
   let [catalogLoading, setCatalogLoading] = useState<boolean>(true);
   let [catalogError, setCatalogError] = useState<string>("");
   const [catalogRefresh, setCatalogRefresh] = useState<number>(0);
@@ -42,11 +40,9 @@ export default function Index() {
         <Catalog catalog={catalog} VeggiePressCallback={handleVeggie} />
       </View>
 
-      {/*only show the "Manage Cart" button if the cart isn't empty*/}
-      {cart.size > 0 &&
         <TouchableOpacity style={styles.menuBar} onPress={()=>router.push('/MyCart')}>
           <Text style={{ color: "white" }}>Manage Cart</Text>
-        </TouchableOpacity>}
+        </TouchableOpacity>
     </View>
   );
 }

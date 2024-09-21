@@ -45,7 +45,15 @@ export async function addVegetableToCart(vegetable: Vegetable) {
 export async function removeVegetableFromCart(vegetable: Vegetable) {
     //TODO: DELETE the vegetable to partner's cart using the /cart/<partner_id> endpoint
     const partnerID = await getCurrentPartnerID();
-    const response = await fetch(`${baseUrl}/cart/${partnerID}`);
+    const sessionID = await getCurrentPartnerSession();
+    const response = await fetch(`${baseUrl}/cart/${partnerID}`, {method: 'DELETE',
+        headers: {"SessionID": sessionID, "Content-Type": "application/json",},
+        body: JSON.stringify({vegetableId: vegetable.id})
+    });
+
+    if (response.status != 200){
+        console.log("error removing vegetable from cart");
+    }
 }
 
 export async function getPartnerCart(): Promise<Cart> {

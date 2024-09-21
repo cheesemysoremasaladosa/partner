@@ -1,12 +1,12 @@
 import { useNavigation } from 'expo-router';
-import { FlatList, View, Text, StyleSheet } from "react-native";
-import { getPartnerCart } from "@/api/cart";
+import { FlatList, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { getPartnerCart, removeVegetableFromCart } from "@/api/cart";
 import { useContext, useEffect, useState } from "react";
 import { Cart, Item, Vegetable } from "@/types/types";
 import { CatalogContext } from "./_layout";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-function CartItem({ item, vegetable }: { item: Item; vegetable: Vegetable }) {
+function CartItem({ item, vegetable, deleteCallback }: { item: Item; vegetable: Vegetable, deleteCallback: (vegetable: Vegetable)=>void}) {
   return (
     <View style={style.cartItem}>
       <View style={{height: 100, width: 100, backgroundColor: "silver", borderRadius: 5}}></View>
@@ -14,7 +14,9 @@ function CartItem({ item, vegetable }: { item: Item; vegetable: Vegetable }) {
         <Text style={{fontWeight: 500}}>{vegetable.name}</Text>
       </View>
       <View style={{flex: 1, alignItems: "center"}}>
-        <Ionicons name="remove-circle-outline" size={24} color="black" />
+        <TouchableOpacity onPress={()=>deleteCallback(vegetable)}>
+          <Ionicons name="remove-circle-outline" size={24} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -25,10 +27,15 @@ export default function CurrentCart() {
   const [cartDataLoading, setCartDataLoading] = useState<boolean>(true);
   const { catalog } = useContext(CatalogContext);
   const navigation = useNavigation();
-
+  
   function getVegetableById(vegetableId: number): Vegetable {
     //FIXME: handle invalid vegetableId
     return catalog.get(vegetableId) ?? ({} as Vegetable);
+  }
+
+  function deleteItemFromCart(vegetable: Vegetable){
+    removeVegetableFromCart(vegetable);
+    setCartData(cartData.filter((item)=>item.vegetableId !== vegetable.id));
   }
 
   useEffect(()=>{navigation.setOptions({title: "My Cart"});}, [navigation]);
@@ -50,6 +57,7 @@ export default function CurrentCart() {
           <CartItem
             item={item}
             vegetable={getVegetableById(item.vegetableId)}
+            deleteCallback={deleteItemFromCart}
           />
         )}
       />
