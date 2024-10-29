@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigation } from 'expo-router';
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { CatalogSkeleton, Catalog, CatalogError } from "@/components/Catalog";
+import { CatalogSkeleton, Catalog, CatalogError } from "@/components/home/Catalog";
 import { Vegetable} from "@/types/types";
 import { getVegetableCatalog, addVegetableToCart} from "@/api/cart";
 import { CatalogContext } from "./_layout";

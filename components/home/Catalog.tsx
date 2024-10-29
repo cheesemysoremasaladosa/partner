@@ -1,5 +1,5 @@
 import { View, StyleSheet, FlatList, Dimensions, Text, TouchableOpacity} from "react-native";
-import Veggie from "./Veggie";
+import Veggie from "../common/Veggie";
 import {CatalogData, Vegetable } from "@/types/types";
 
 export function CatalogSkeleton() {
@@ -39,14 +39,14 @@ function formatData(data: CatalogData, numColumns: number):Array<Vegetable>{
 }
 
 export function Catalog({ catalog, VeggiePressCallback }: { catalog: CatalogData, VeggiePressCallback: (vegetable: Vegetable) => void }) {
-    return (<FlatList data={formatData(catalog, numColumns)}
+    return (<FlatList data={(()=>[...catalog.values()] as ArrayLike<Vegetable>)()} horizontal={true}
         renderItem={({ item }: {item: Vegetable}) => {
             if (Object.keys(item).length==0) {
                 return <Veggie vegetable={{} as Vegetable} pressCallback={() => { }} style={{ backgroundColor: 'transperent' }} />
             }
             return <Veggie vegetable={item} pressCallback={VeggiePressCallback} />
         }}
-        numColumns={numColumns} style={style.veggieRow} />
+        style={style.veggieRow} />
     );
 }
 

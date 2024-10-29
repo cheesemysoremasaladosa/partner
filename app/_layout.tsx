@@ -14,7 +14,7 @@ export default function RootLayout() {
   return (
     <CatalogContext.Provider value={{catalog: catalog, setCatalog: setCatalog} as CatalogState}>
       <Stack>
-        <Stack.Screen name="index" />
+        <Stack.Screen name="(home)" options={{title: "Home", headerShown: false}}/>
       </Stack>
     </CatalogContext.Provider>
   );

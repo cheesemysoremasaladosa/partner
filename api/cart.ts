@@ -21,6 +21,7 @@ export async function getCurrentPartnerID(): Promise<PartnerID> {
 
 export async function getVegetableCatalog(): Promise<CatalogData> {
     //GET the vegetable catalog using the /catalog endpoint
+    //TODO: add timeout
     const response = await fetch(baseUrl + "/catalog");
     const catalog_json = await response.json();
     const catalog_entries: Array<[string, Vegetable]> = Object.entries(catalog_json.catalog);
