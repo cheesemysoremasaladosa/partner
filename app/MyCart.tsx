@@ -1,15 +1,18 @@
 import { useNavigation } from 'expo-router';
-import { FlatList, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, FlatList, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { getPartnerCart, removeVegetableFromCart } from "@/api/cart";
 import { useContext, useEffect, useState } from "react";
 import { Cart, Item, Vegetable } from "@/types/types";
 import { CatalogContext } from "./_layout";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+const BASE_URL= process.env.EXPO_PUBLIC_API_URL;
+const BASE_IMG_URL = `${BASE_URL}/static/`;
+
 function CartItem({ item, vegetable, deleteCallback }: { item: Item; vegetable: Vegetable, deleteCallback: (vegetable: Vegetable)=>void}) {
   return (
     <View style={style.cartItem}>
-      <View style={{height: 100, width: 100, backgroundColor: "silver", borderRadius: 5}}></View>
+      <Image source={{uri:BASE_IMG_URL+vegetable.name+".jpeg"}} style={{aspectRatio: "1/1", width: "100%", borderRadius: 5, flex: 1}}/>
       <View style={{flex: 2, alignItems: "center"}}>
         <Text style={{fontWeight: 500}}>{vegetable.name}</Text>
       </View>
