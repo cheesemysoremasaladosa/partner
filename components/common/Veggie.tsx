@@ -1,7 +1,8 @@
 import { Vegetable } from "@/types/types";
 import { TouchableOpacity, View, Image, StyleSheet, Text, StyleProp, ViewStyle } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
-const BASE_IMG_URL = `http://192.168.1.6:8000/static/`;
+const BASE_URL= process.env.EXPO_PUBLIC_API_URL;
+const BASE_IMG_URL = `${BASE_URL}/static/`;
 export default function Veggie({ vegetable, pressCallback, style={}}: { vegetable: Vegetable,pressCallback: (vegetable: Vegetable) => void, style?: StyleProp<ViewStyle>}) {
     return (
         <View style={styles.veggieItem}>
