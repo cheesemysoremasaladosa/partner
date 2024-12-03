@@ -16,19 +16,20 @@ function CartDetailButton() {
       style={{
         borderColor: "#f8f9fa",
         borderBottomColor: "#d8f3dc",
+        backgroundColor:"#630a6a",
         borderWidth: 2,
         width: "100%",
         alignItems: "center",
-        borderRadius: 5,
+        borderRadius: 10,
         justifyContent: "center",
-        flex: 1,
+        flex: 0.5,
         flexDirection: "row",
       }}
     >
-      <Text style={{ fontWeight: "bold", marginLeft: "2%", marginRight: "2%" }}>
+      <Text style={{ color:"white", fontWeight: "bold", marginLeft: "2%", marginRight: "2%"}}>
         Cart Details
       </Text>
-      <AntDesign name="shoppingcart" size={20} color="black" />
+      <AntDesign name="shoppingcart" size={20} color="white" />
     </TouchableOpacity>
   );
 }
@@ -85,7 +86,9 @@ export default function CatalogView() {
       }}
     >
       <SearchBar />
-      <CartDetailButton />
+      <View style={{flex: 1, width:"100%", flexDirection: "row", justifyContent: "flex-start"}}>
+        <CartDetailButton />
+      </View>
       <View style={{ alignItems: "center", rowGap: 20, flex: 3 }}>
         <View style={{ rowGap: 5, flex: 1 }}>
           <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
