@@ -24,19 +24,21 @@ export function CatalogError({ errorMsg, refreshCallback }: { errorMsg: string, 
     );
 }
 
-function CatalogItem({item, callback}: {item: Vegetable, callback: (vegetable: Vegetable)=>void}) {
-    return (<View style={{alignItems:"center"}}>
+function CatalogItem({ item, callback }: { item: Vegetable, callback: (vegetable: Vegetable) => void }) {
+    return (<View style={{ alignItems: "center" }}>
         <Veggie vegetable={item} pressCallback={callback} />
-        <Text style={{fontSize: 10, fontWeight: "normal"}}>{item.name}</Text>
     </View>);
 }
 
 export function Catalog({ catalog, VeggiePressCallback }: { catalog: CatalogData, VeggiePressCallback: (vegetable: Vegetable) => void }) {
-    return (<FlatList data={(() => [...catalog.values()] as ArrayLike<Vegetable>)()} horizontal={true} showsHorizontalScrollIndicator={false}
-        renderItem={({ item }: { item: Vegetable }) => {
-            return <CatalogItem item={item} callback={VeggiePressCallback}/>
-        }}
-        style={style.veggieRow} />
+    return (
+        <View style={{flex:1}}>
+            <FlatList data={(() => [...catalog.values()] as ArrayLike<Vegetable>)()} horizontal={true} showsHorizontalScrollIndicator={false}
+                renderItem={({ item }: { item: Vegetable }) => {
+                    return <CatalogItem item={item} callback={VeggiePressCallback} />
+                }}
+                style={style.veggieRow} />
+        </View>
     );
 }
 
