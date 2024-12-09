@@ -37,7 +37,7 @@ function CartDetailButton() {
 function CatalogRow({ title, catalog, handler }: { title: string, catalog: CatalogData, handler: (vegetable: Vegetable) => void }) {
   return (<View style={{ alignItems: "center", rowGap: 20, flex: 3 }}>
     <View style={{ rowGap: 5, flex: 1 }}>
-      <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+      <View style={{ flexDirection: "row", width: "100%"}}>
         <Text style={{ fontWeight: "bold", marginLeft: 10 }}>{title}</Text>
         <View
           style={{
@@ -54,7 +54,7 @@ function CatalogRow({ title, catalog, handler }: { title: string, catalog: Catal
               color: "#ff4d6d",
             }}
           >
-            See all {">"}{" "}
+            See all {"> "}{" "}
           </Text>
         </View>
       </View>
@@ -109,7 +109,7 @@ export default function CatalogView() {
   return (
     <View
       style={{
-        alignItems: "center",
+        alignItems: "flex-start",
         rowGap: 10,
         flex: 1,
         padding: 5,

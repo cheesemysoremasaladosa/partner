@@ -25,18 +25,21 @@ export function CatalogError({ errorMsg, refreshCallback }: { errorMsg: string, 
 }
 
 function CatalogItem({ item, callback }: { item: Vegetable, callback: (vegetable: Vegetable) => void }) {
-    return (<View style={{ alignItems: "center" }}>
+    //EXPLAIN: why does putting a flex: 1 on the view make the items in the Catalog stick together i.e margin is lost
+    return (<View>
         <Veggie vegetable={item} pressCallback={callback} />
     </View>);
 }
 
 export function Catalog({ catalog, VeggiePressCallback }: { catalog: CatalogData, VeggiePressCallback: (vegetable: Vegetable) => void }) {
+    //DIRTY FIX: if not for the paddingRight: '20%' on the FlatList, the last item is hidden, fix it more concretely
     return (
         <View style={{flex:1}}>
             <FlatList data={(() => [...catalog.values()] as ArrayLike<Vegetable>)()} horizontal={true} showsHorizontalScrollIndicator={false}
                 renderItem={({ item }: { item: Vegetable }) => {
                     return <CatalogItem item={item} callback={VeggiePressCallback} />
                 }}
+                contentContainerStyle={{paddingRight:'20%'}}
                 style={style.veggieRow} />
         </View>
     );
